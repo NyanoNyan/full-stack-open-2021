@@ -2,33 +2,26 @@ import React from 'react'
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10
-  }
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7
-  }
-  const part3 = {
-    name: 'State of a component',
-    exercises: 14
-  }
-
-  const totalExercises = part1.exercises + part2.exercises + part3.exercises
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
 
   return (
     <div>
-      <Header course={course}/>
-      <Content 
-        part1 = {part1.name}
-        part2 = {part2.name}
-        part3 = {part3.name}
-        exercises1 = {part1.exercises}
-        exercises2 = {part2.exercises}
-        exercises3 = {part3.exercises}
-      />
-      <Total totalExercises={totalExercises}/>
+      <Header course = {course}/>
+      <Content parts={parts}/>
+      <Total parts={parts}/>
     </div>
   )
 }
@@ -42,11 +35,12 @@ const Header = (props) => {
 }
 
 const Content = (props) => {
+  const [first, second, third] = props.parts;
   return (
     <div>
-      <Part part={props.part1} exerciseNum={props.exercises1}/>
-      <Part part={props.part2} exerciseNum={props.exercises2}/>
-      <Part part={props.part3} exerciseNum={props.exercises3}/>
+      <Part part={first.name} exerciseNum={first.exercises}/>
+      <Part part={second.name} exerciseNum={second.exercises}/>
+      <Part part={third.name} exerciseNum={third.exercises}/>
     </div>
   )
 }
@@ -62,9 +56,12 @@ const Part = (props) => {
 }
 
 const Total = (props) => {
+  const holder = props.parts;
+  const total = holder.reduce((accum, currValue) => accum + currValue.exercises, 0);
+  console.log(total);
   return (
     <div>
-      <h3>Total number of exercises: {props.totalExercises}</h3>
+      <h3>Total number of exercises: {total}</h3>
     </div>
 
   )
