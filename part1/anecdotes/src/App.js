@@ -11,30 +11,55 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [vote, setVote] = useState(new Array(anecdotes.length).fill(0));
 
   const randomSelect = () => {
     const randNum = Math.floor(Math.random() * anecdotes.length);
     setSelected(randNum);
-  }
+  };
+
+  const handleVote = () => {
+    const copyArr = [...vote];
+    copyArr[selected] += 1;
+    setVote(copyArr);
+  };
 
   return (
     <div>
       {anecdotes[selected]}
-      <Button 
-        name={"next anecdote"}
-        randomSelect={randomSelect}
-      />
+      
+      <div id="num-votes">
+        {`has ${vote[selected]} votes`}
+      </div>
+
+      <div id="buttons-section">
+        <VoteButton 
+          name={"vote"}
+          handleVote={handleVote}
+        />
+        <Button 
+          name={"next anecdote"}
+          randomSelect={randomSelect}
+        />
+      </div>
+
     </div>
   )
 }
 
 const Button = ( {name, randomSelect} ) => {
   return (
-    <div>
       <button onClick={randomSelect}>
         {name}
       </button>
-    </div>
+  )
+};
+
+const VoteButton = ( {name, handleVote} ) => {
+  return (
+      <button onClick={handleVote}>
+        {name}
+      </button>
 
   )
 }
