@@ -36,12 +36,6 @@ const App = () => {
       />
 
       <Title name={"statistics"}/>
-      
-      <StatFieldBrief 
-        good = {good}
-        neutral = {neutral}
-        bad = {bad}
-      />
 
       <Statistics 
         good = {good}
@@ -63,16 +57,6 @@ const Button = ( {name, updateButton}) => {
     <button onClick={() => updateButton(name)}>{name}</button>
   )
 };
-
-const StatFieldBrief = ( {good, neutral, bad} ) => {
-  return (
-    <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-    </div>
-  )
-}
 
 const Statistics = ( {good, neutral, bad} ) => {
   let total = good + neutral + bad;
@@ -99,13 +83,24 @@ const Statistics = ( {good, neutral, bad} ) => {
     }
   };
 
-  return (
-    <div>
-      <p>all {total}</p>
-      <p>average {averageCalc()}</p>
-      <p>positive {postiveCalc()} %</p>
-    </div>
-  );
+  if (total === 0) {
+    return (
+      <p>No feedback given</p>
+    )
+  } else {
+    return (
+      <div>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {total}</p>
+        <p>average {averageCalc()}</p>
+        <p>positive {postiveCalc()} %</p>
+      </div>
+    );
+  }
+
+
 };
 
 export default App
