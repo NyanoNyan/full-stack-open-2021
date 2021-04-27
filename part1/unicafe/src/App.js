@@ -19,19 +19,24 @@ const App = () => {
   return (
     <div>
       <Title name={"give feedback"}/> 
+
       <Button 
         name={"good"}
         updateButton={updateButton}
       />
+
       <Button 
         name={"neutral"}
         updateButton={updateButton}
       />
+
       <Button 
         name={"bad"}
         updateButton={updateButton}
       />
+
       <Title name={"statistics"}/>
+      
       <StatField 
         good = {good}
         neutral = {neutral}
@@ -54,11 +59,34 @@ const Button = ( {name, updateButton}) => {
 };
 
 const StatField = ( {good, neutral, bad} ) => {
+  const total = good + neutral + bad;
+
+  const average = () => {
+    const avg = (good-bad)/total;
+    if (isNaN(avg)) {
+      return 0;
+    } else {
+      return avg;
+    }
+  };
+
+  const postiveCal = () => {
+    const posVal = (good/total) *100;
+    if (isNaN(posVal)) {
+      return 0;
+    } else {
+      return posVal;
+    }
+  }
+
   return (
     <div>
       <p>good {good}</p>
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
+      <p>all {total}</p>
+      <p>average {average()}</p>
+      <p>average {postiveCal()} %</p>
     </div>
   )
 }
