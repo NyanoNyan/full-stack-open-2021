@@ -26,6 +26,7 @@ const App = () => {
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       {anecdotes[selected]}
       
       <div id="num-votes">
@@ -33,13 +34,20 @@ const App = () => {
       </div>
 
       <div id="buttons-section">
+
         <VoteButton 
           name={"vote"}
           handleVote={handleVote}
         />
+
         <Button 
           name={"next anecdote"}
           randomSelect={randomSelect}
+        />
+
+        <MostVotes 
+          votes={vote}
+          anecdotes={anecdotes}
         />
       </div>
 
@@ -61,7 +69,21 @@ const VoteButton = ( {name, handleVote} ) => {
         {name}
       </button>
 
-  )
-}
+  );
+};
+
+const MostVotes = ( {votes, anecdotes} ) => {
+  const indxLargest = votes.indexOf(Math.max(...votes));
+  return (
+    <>
+    <div>
+      <h2>Anecdote with most votes</h2>
+    </div>
+    <div>
+      {anecdotes[indxLargest]}
+    </div>
+    </>
+  );
+};
 
 export default App
