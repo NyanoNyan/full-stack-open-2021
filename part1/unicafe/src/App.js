@@ -121,7 +121,11 @@ const Statistics = ( {good, neutral, bad} ) => {
 
 const Statistic = ( {text, value} ) => {
   return (
-    <p>{text} {value}</p>
+          <tr>
+            <td>{text}</td>
+            <td>&nbsp;</td>
+            <td>{value}</td>
+          </tr>
   )
 }
 
