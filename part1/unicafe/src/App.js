@@ -37,7 +37,13 @@ const App = () => {
 
       <Title name={"statistics"}/>
       
-      <StatField 
+      <StatFieldBrief 
+        good = {good}
+        neutral = {neutral}
+        bad = {bad}
+      />
+
+      <Statistics 
         good = {good}
         neutral = {neutral}
         bad = {bad}
@@ -58,10 +64,24 @@ const Button = ( {name, updateButton}) => {
   )
 };
 
-const StatField = ( {good, neutral, bad} ) => {
-  const total = good + neutral + bad;
+const StatFieldBrief = ( {good, neutral, bad} ) => {
+  return (
+    <div>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+    </div>
+  )
+}
 
-  const average = () => {
+const Statistics = ( {good, neutral, bad} ) => {
+  let total = good + neutral + bad;
+
+  if (isNaN(total)){
+    total = 0;
+  }
+
+  const averageCalc = () => {
     const avg = (good-bad)/total;
     if (isNaN(avg)) {
       return 0;
@@ -70,25 +90,22 @@ const StatField = ( {good, neutral, bad} ) => {
     }
   };
 
-  const postiveCal = () => {
+  const postiveCalc = () => {
     const posVal = (good/total) *100;
     if (isNaN(posVal)) {
       return 0;
     } else {
       return posVal;
     }
-  }
+  };
 
   return (
     <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
       <p>all {total}</p>
-      <p>average {average()}</p>
-      <p>average {postiveCal()} %</p>
+      <p>average {averageCalc()}</p>
+      <p>positive {postiveCalc()} %</p>
     </div>
-  )
-}
+  );
+};
 
 export default App
