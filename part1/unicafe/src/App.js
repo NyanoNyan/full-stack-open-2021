@@ -79,7 +79,7 @@ const Statistics = ( {good, neutral, bad} ) => {
     if (isNaN(posVal)) {
       return 0;
     } else {
-      return posVal;
+      return `${posVal} %`;
     }
   };
 
@@ -90,17 +90,39 @@ const Statistics = ( {good, neutral, bad} ) => {
   } else {
     return (
       <div>
-        <p>good {good}</p>
-        <p>neutral {neutral}</p>
-        <p>bad {bad}</p>
-        <p>all {total}</p>
-        <p>average {averageCalc()}</p>
-        <p>positive {postiveCalc()} %</p>
+        <Statistic 
+          text="good"
+          value={good}
+        />
+        <Statistic 
+          text="neutral"
+          value={neutral}
+        />
+        <Statistic 
+          text="bad"
+          value={bad}
+        />
+        <Statistic 
+          text="total"
+          value={total}
+        />
+        <Statistic 
+          text="average"
+          value={averageCalc()}
+        />
+        <Statistic 
+          text="positive"
+          value={postiveCalc() }
+        />
       </div>
     );
   }
-
-
 };
+
+const Statistic = ( {text, value} ) => {
+  return (
+    <p>{text} {value}</p>
+  )
+}
 
 export default App
