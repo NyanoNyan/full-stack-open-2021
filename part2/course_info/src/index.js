@@ -8,9 +8,10 @@ const Header = ({ course }) => {
 }
 
 const Total = ({ course }) => {
-  const sum = course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises
+  // console.log(course.parts);
+  const sum = course.parts.reduce((accum, curr) => accum + curr.exercises, 0);
   return(
-    <p>Number of exercises {sum}</p>
+    <h4>Total of {sum} exercises</h4>
   ) 
 }
 
@@ -38,15 +39,11 @@ const Content = ({ course }) => {
 }
 
 const Course = ( {course} ) => {
-  console.log(course.name)
   return (
     <div>
-      <Header 
-        course = {course}
-      />
-      <Content
-        course = {course}
-      />
+      <Header course = {course} />
+      <Content course = {course} />
+      <Total course = {course} />
     </div>
   );
 };
@@ -71,6 +68,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
