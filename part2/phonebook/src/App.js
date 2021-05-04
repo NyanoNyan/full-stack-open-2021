@@ -16,7 +16,10 @@ const App = () => {
       name: newName,
     };
 
-    setPersons(persons.concat(noteObj));
+    // Checks for duplication using conditional (ternary) operator
+    persons.includes(newName)
+    ? setPersons(persons.concat(noteObj)) : alert(`${newName} is already added to phonebook`);
+
     setNewName('');
   };
 
