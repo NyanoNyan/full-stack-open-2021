@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
@@ -19,6 +19,7 @@ const App = () => {
     event.preventDefault();
     const noteObj = {
       name: newName,
+      number: newPhone,
     };
 
     // Checks for duplication using conditional (ternary) operator
@@ -26,7 +27,9 @@ const App = () => {
     ? alert(`${newName} is already added to phonebook`) : setPersons(persons.concat(noteObj));
 
     setNewName('');
+    setNewPhone('');
   };
+
 
   return (
     <div>
@@ -45,6 +48,8 @@ const App = () => {
       {persons.map(person => 
         <div key={person.name}>
           {person.name}
+          {' '}
+          {person.number}
         </div>
         )}
     </div>
