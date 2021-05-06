@@ -7,9 +7,13 @@ const App = () => {
 
   const [countryName, setCountryName] = useState('');
   const [countryData, setCountryData] = useState([]);
+  // For showing countries with button click
+  const [isBtnClick, setIsBtnClick] = useState(false);
+  const [showData, setShowData] = useState();
 
   const countryValueChange = (event) => {
     setCountryName(event.target.value);
+    setIsBtnClick(false);
   };
 
   useEffect(() => {
@@ -32,6 +36,11 @@ const App = () => {
       />
       <ShowCountry
         newFilterd = {newFilterd}
+        isBtnClick = {isBtnClick}
+        setIsBtnClick = {setIsBtnClick}
+        showData = {showData}
+        setShowData = {setShowData}
+
       />
     </div>
   )
