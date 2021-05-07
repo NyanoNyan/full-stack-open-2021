@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons'
+import noteService from './services/notes'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -32,7 +33,6 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const url = 'http://localhost:3001/persons';
     const noteObj = {
       name: newName,
       number: newPhone,
@@ -41,10 +41,10 @@ const App = () => {
     // Checks for duplication using conditional (ternary) operator
     persons.includes(newName)
     ? alert(`${newName} is already added to phonebook`) : 
-    axios
-      .post(url, noteObj)
-      .then(response => {
-        setPersons(persons.concat(response.data));
+    noteService
+      .create(noteObj)
+      .then(returnedNote => {
+        setPersons(persons.concat(returnedNote));
         setNewName('');
         setNewPhone('');
       });
