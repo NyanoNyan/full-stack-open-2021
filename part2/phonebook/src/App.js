@@ -37,7 +37,6 @@ const App = () => {
       name: newName,
       number: newPhone,
     };
-
     // Checks for duplication using conditional (ternary) operator
     persons.includes(newName)
     ? alert(`${newName} is already added to phonebook`) : 
@@ -48,6 +47,17 @@ const App = () => {
         setNewName('');
         setNewPhone('');
       });
+  };
+
+  const deletePerson = (person) => {
+    if(window.confirm(`Delete ${person.name} ?`)) {
+      noteService
+      .deletePost(person.id)
+      .then(returnedNote => {
+        setPersons(persons.filter(listPerson => listPerson.id !== person.id))
+      });
+    };
+
   };
 
   // Search functionality based on name (case insensitive using ternary operator)
@@ -76,6 +86,7 @@ const App = () => {
       <h2>Numbers</h2>
       <Persons 
         namesToShow={namesToShow}
+        deletePerson={deletePerson}
       />
         
     </div>
