@@ -32,6 +32,7 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
+    const url = 'http://localhost:3001/persons';
     const noteObj = {
       name: newName,
       number: newPhone,
@@ -39,10 +40,14 @@ const App = () => {
 
     // Checks for duplication using conditional (ternary) operator
     persons.includes(newName)
-    ? alert(`${newName} is already added to phonebook`) : setPersons(persons.concat(noteObj));
-
-    setNewName('');
-    setNewPhone('');
+    ? alert(`${newName} is already added to phonebook`) : 
+    axios
+      .post(url, noteObj)
+      .then(response => {
+        setPersons(persons.concat(response.data));
+        setNewName('');
+        setNewPhone('');
+      });
   };
 
   // Search functionality based on name (case insensitive using ternary operator)
