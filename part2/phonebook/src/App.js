@@ -33,20 +33,39 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const noteObj = {
-      name: newName,
-      number: newPhone,
-    };
-    // Checks for duplication using conditional (ternary) operator
-    persons.includes(newName)
-    ? alert(`${newName} is already added to phonebook`) : 
-    noteService
-      .create(noteObj)
-      .then(returnedNote => {
-        setPersons(persons.concat(returnedNote));
-        setNewName('');
-        setNewPhone('');
-      });
+
+    
+    // Updates number if name is already in the list
+    if (persons.filter(e => e.name.toLowerCase() === newName.toLowerCase()).length > 0) {
+      if (window.confirm(`${newName} is already to phonebook, replace the old number with a new one?`)) {
+        const personUpdateData = persons.find(person => person.name.toLowerCase() === newName.toLowerCase());
+        const changedNote = { ...personUpdateData, number: newPhone};
+  
+        noteService
+          .updatePost(personUpdateData.id, changedNote)
+          .then(returnedNote => {
+            setPersons(persons.map(person => person.id != personUpdateData.id ? person: returnedNote))
+          })
+      }
+
+        // Adds new note
+    } else {
+      const noteObj = {
+        name: newName,
+        number: newPhone,
+      };
+      // Checks for duplication using conditional (ternary) operator
+      persons.includes(newName)
+      ? alert(`${newName} is already added to phonebook`) : 
+      noteService
+        .create(noteObj)
+        .then(returnedNote => {
+          setPersons(persons.concat(returnedNote));
+          setNewName('');
+          setNewPhone('');
+        });
+    } 
+
   };
 
   const deletePerson = (person) => {
@@ -55,7 +74,10 @@ const App = () => {
       .deletePost(person.id)
       .then(returnedNote => {
         setPersons(persons.filter(listPerson => listPerson.id !== person.id))
-      });
+      })
+      .catch(error => {
+        console.log('Some error happening here')
+      })
     };
 
   };
