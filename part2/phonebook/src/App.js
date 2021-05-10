@@ -10,6 +10,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
   const [ searchItem, setSearchItem ] = useState('');
+  const [ message, setMessage] = useState(null);
   
   useEffect(() => {
     axios
@@ -33,7 +34,6 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-
     
     // Updates number if name is already in the list
     if (persons.filter(e => e.name.toLowerCase() === newName.toLowerCase()).length > 0) {
@@ -63,7 +63,12 @@ const App = () => {
           setPersons(persons.concat(returnedNote));
           setNewName('');
           setNewPhone('');
+          setMessage(`Added ${newName}`)
         });
+
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
     } 
 
   };
@@ -90,6 +95,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message}/>
       <h2>Phonebook</h2>
       <Filter 
         searchItem={searchItem} 
@@ -111,6 +117,28 @@ const App = () => {
         deletePerson={deletePerson}
       />
         
+    </div>
+  )
+}
+
+const Notification = ({ message }) => {
+  const addStyle = {
+    color: 'green',
+    background: 'lightgrey',
+    borderStyle: 'solid',
+    padding: '10px',
+    marginBottom: '10px',
+    fontSize: '18px',
+    textAlign: 'center',
+  }
+
+  if (message === null) {
+    return null;
+  };
+
+  return (
+    <div style={addStyle}>
+      {message}
     </div>
   )
 }
