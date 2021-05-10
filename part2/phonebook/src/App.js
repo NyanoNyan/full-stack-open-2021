@@ -11,6 +11,7 @@ const App = () => {
   const [ newPhone, setNewPhone ] = useState('')
   const [ searchItem, setSearchItem ] = useState('');
   const [ message, setMessage] = useState(null);
+  const [isError, setisError] = useState(false);
   
   useEffect(() => {
     axios
@@ -63,6 +64,7 @@ const App = () => {
           setPersons(persons.concat(returnedNote));
           setNewName('');
           setNewPhone('');
+          setisError(false);
           setMessage(`Added ${newName}`)
         });
 
@@ -78,12 +80,18 @@ const App = () => {
       noteService
       .deletePost(person.id)
       .then(returnedNote => {
-        setPersons(persons.filter(listPerson => listPerson.id !== person.id))
+        setPersons(persons.filter(listPerson => listPerson.id !== person.id));
       })
       .catch(error => {
-        console.log('Some error happening here')
+        setMessage(`Information of ${person.name} has already been removed from server`)
+        setisError(true);
       })
+      setTimeout(() => {
+        setMessage(null);
+        setisError(false);
+      }, 5000)
     };
+
 
   };
 
@@ -95,7 +103,10 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={message}/>
+      <Notification 
+        message={message}
+        isError={isError}
+        />
       <h2>Phonebook</h2>
       <Filter 
         searchItem={searchItem} 
@@ -121,7 +132,8 @@ const App = () => {
   )
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ message, isError }) => {
+
   const addStyle = {
     color: 'green',
     background: 'lightgrey',
@@ -130,14 +142,27 @@ const Notification = ({ message }) => {
     marginBottom: '10px',
     fontSize: '18px',
     textAlign: 'center',
-  }
-
-  if (message === null) {
-    return null;
   };
 
+  const errorStyle = {
+    color: 'red',
+    background: 'lightgrey',
+    borderStyle: 'solid',
+    padding: '10px',
+    marginBottom: '10px',
+    fontSize: '18px',
+    textAlign: 'center',
+  };
+
+  // console.log(isError)
+  // console.log(message)
+
+   if (message === null) {
+    return null;
+  }; 
+
   return (
-    <div style={addStyle}>
+    <div style={isError ? errorStyle: addStyle}>
       {message}
     </div>
   )
