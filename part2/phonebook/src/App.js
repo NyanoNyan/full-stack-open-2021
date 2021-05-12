@@ -14,8 +14,9 @@ const App = () => {
   const [isError, setisError] = useState(false);
   
   useEffect(() => {
+    const baseUrl = 'http://localhost:3001/api/persons';
     axios
-        .get('http://localhost:3001/persons')
+        .get(baseUrl)
         .then(response => {
           setPersons(response.data)
         })
@@ -35,7 +36,7 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    
+    console.log(1)
     // Updates number if name is already in the list
     if (persons.filter(e => e.name.toLowerCase() === newName.toLowerCase()).length > 0) {
       if (window.confirm(`${newName} is already to phonebook, replace the old number with a new one?`)) {
@@ -61,7 +62,8 @@ const App = () => {
       noteService
         .create(noteObj)
         .then(returnedNote => {
-          setPersons(persons.concat(returnedNote));
+          // setPersons(persons.concat(returnedNote));
+          setPersons(returnedNote);
           setNewName('');
           setNewPhone('');
           setisError(false);
