@@ -14,7 +14,8 @@ const App = () => {
   const [isError, setisError] = useState(false);
   
   useEffect(() => {
-    const baseUrl = 'http://localhost:3001/api/persons';
+    // const baseUrl = 'http://localhost:3001/api/persons';
+    const baseUrl = 'https://lit-eyrie-32178.herokuapp.com/api/persons';
     axios
         .get(baseUrl)
         .then(response => {
@@ -42,11 +43,15 @@ const App = () => {
       if (window.confirm(`${newName} is already to phonebook, replace the old number with a new one?`)) {
         const personUpdateData = persons.find(person => person.name.toLowerCase() === newName.toLowerCase());
         const changedNote = { ...personUpdateData, number: newPhone};
-  
+        
         noteService
           .updatePost(personUpdateData.id, changedNote)
           .then(returnedNote => {
             setPersons(persons.map(person => person.id != personUpdateData.id ? person: returnedNote))
+          })
+          .catch(error => {
+            setisError(true);
+            setMessage(error.response.data.error);
           })
       }
 
@@ -62,13 +67,17 @@ const App = () => {
       noteService
         .create(noteObj)
         .then(returnedNote => {
-          // setPersons(persons.concat(returnedNote));
-          setPersons(returnedNote);
+          setPersons(persons.concat(returnedNote));
+          // setPersons(returnedNote);
           setNewName('');
           setNewPhone('');
           setisError(false);
           setMessage(`Added ${newName}`)
-        });
+        })
+        .catch(error => {
+          setisError(true);
+          setMessage(error.response.data.error);
+        })
 
         setTimeout(() => {
           setMessage(null)
