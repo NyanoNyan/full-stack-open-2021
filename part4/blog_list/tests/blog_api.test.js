@@ -96,7 +96,26 @@ describe('Testing apis', () => {
 
   })
 
+
+  test('delete note', async () => {
+    const selectedBlog = await Blog.find({title: 'This is going to be the one'});
+
+    const blogToDelete = selectedBlog[0].id
+    console.log(blogToDelete)
+    await api
+      .delete(`/api/blogs/${blogToDelete}`)
+      .expect(204)
+
+    const updatedNotes = await helper.getAllBlogsInDB();
+    expect(updatedNotes).toHaveLength(helper.initialBlogs.length - 1);
+
+    const contents = updatedNotes.map(x => x.title);
+    expect(contents).not.toContain(blogToDelete.title)
+
+  })
+
 });
+
 
 afterAll(() => {
     mongoose.connection.close();
