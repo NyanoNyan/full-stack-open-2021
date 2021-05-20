@@ -33,6 +33,13 @@ describe('Testing apis', () => {
     expect(response.body).toHaveLength(helper.initialBlogs.length);
   });
 
+  test('check unique id for blog', async() => {
+    const response = await api.get('/api/blogs');
+    const blogList = response.body;
+    blogList.map(blog => expect(blog.id).toBeDefined());
+
+  })
+
 })
 
 afterAll(() => {
