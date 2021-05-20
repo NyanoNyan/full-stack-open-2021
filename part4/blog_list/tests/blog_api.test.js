@@ -96,7 +96,9 @@ describe('Testing apis', () => {
 
   })
 
+});
 
+describe('testing update, delete', () => {
   test('delete note', async () => {
     const selectedBlog = await Blog.find({title: 'This is going to be the one'});
 
@@ -112,9 +114,30 @@ describe('Testing apis', () => {
     const contents = updatedNotes.map(x => x.title);
     expect(contents).not.toContain(blogToDelete.title)
 
-  })
+  });
 
-});
+  test('update note', async () => {
+    const selectedBlog = await Blog.find({title: 'How are you doing?'});
+    const blogToUpdateId = selectedBlog[0].id;
+
+    const updateBlog = {
+      title: 'How are you doing?',
+      author: "Paul",
+      url: "gg.com",
+      likes: 60
+    }
+
+    await api
+      .put(`/api/blogs/${blogToUpdateId}`)
+      .send(updateBlog)
+      .expect(200)
+
+    const newBlogCheck = await Blog.find({title: 'How are you doing?'});
+    expect(newBlogCheck[0].likes).toBe(60)
+
+  });
+
+})
 
 
 afterAll(() => {

@@ -11,3 +11,14 @@ content-type: application/json
     "url": "gg.com",
     "likes": 22
 }
+
+### Change id
+PUT http://localhost:3003/api/blogs/60a218e10dba6d261798dc16
+content-type: application/json
+
+{
+    "title": "hello",
+    "author": "Testing",
+    "url": "gg.com",
+    "likes": 63
+}
