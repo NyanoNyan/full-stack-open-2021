@@ -38,9 +38,34 @@ describe('Testing apis', () => {
     const blogList = response.body;
     blogList.map(blog => expect(blog.id).toBeDefined());
 
-  })
+  });
 
-})
+  test('add another blog', async() => {
+    const newBlog = {
+      title: 'This is going to be lit',
+      author: 'Jame',
+      url: 'sdfs@asdfs.com',
+      likes: 55,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    
+    const allBlogs = await helper.getAllBlogsInDB();
+    expect(allBlogs).toHaveLength(helper.initialBlogs.length + 1)
+
+    const checkContent = allBlogs.map(blog => blog.title)
+    expect(checkContent).toContain(
+      'This is going to be lit'
+    )
+
+  });
+
+});
 
 afterAll(() => {
     mongoose.connection.close();
