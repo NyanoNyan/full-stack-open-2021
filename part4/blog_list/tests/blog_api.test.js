@@ -81,7 +81,21 @@ describe('Testing apis', () => {
     const selectedBlog = await Blog.find({title: 'Time to duel'})
     expect(selectedBlog[0].likes).toBe(0);
 
+  });
+
+  test('missing title and url', async () => {
+    const newBlog = {
+      author: 'Yugi',
+      likes: 99,
+    };
+
+    await api 
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
   })
+
 });
 
 afterAll(() => {
