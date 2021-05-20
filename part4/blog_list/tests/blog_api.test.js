@@ -65,6 +65,23 @@ describe('Testing apis', () => {
 
   });
 
+  test('default likes', async() => {
+    const newBlog = {
+      title: 'Time to duel',
+      author: 'Yugi',
+      url: 'duel@duel.com',
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const selectedBlog = await Blog.find({title: 'Time to duel'})
+    expect(selectedBlog[0].likes).toBe(0);
+
+  })
 });
 
 afterAll(() => {
