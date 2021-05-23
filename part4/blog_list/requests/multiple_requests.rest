@@ -73,3 +73,12 @@ content-type: application/json
     "userId": "60a7d9ecaf3d390f592fd879"
 }
 
+###
+POST http://localhost:3003/api/login
+content-type: application/json 
+
+
+{
+    "username": "RuiHa",
+    "password": "juhjhkjhk"
+}
