@@ -22,3 +22,54 @@ content-type: application/json
     "url": "gg.com",
     "likes": 63
 }
+
+### Get users (This is not linked to the test DB)
+GET http://localhost:3003/api/users
+
+
+### posting test, checking username
+POST http://localhost:3003/api/users
+content-type: application/json
+
+{
+    "username": "hellas",
+    "name": "Arto Hellas",
+    "password": "testing2"
+}
+
+### posting test, checking username
+POST http://localhost:3003/api/users
+content-type: application/json
+
+{
+    "blogs": [],
+    "username": "RuiHa",
+    "name": "Rui Hachimura",
+    "password": "juhjhkjhk"
+}
+
+
+###
+POST http://localhost:3003/api/blogs
+content-type: application/json 
+
+{
+    "title": "Board man gets paid",
+    "author": "Kawhi",
+    "url": "tt@ll.com",
+    "likes": "55",
+    "userId": "60a7d9ecaf3d390f592fd879"
+}
+
+###
+POST http://localhost:3003/api/blogs
+content-type: application/json 
+
+{
+    "title": "what it do babyy",
+    "author": "Kawhi",
+    "url": "tt@ll.com",
+    "likes": "55",
+    "userId": "60a7d9ecaf3d390f592fd879"
+}
+
