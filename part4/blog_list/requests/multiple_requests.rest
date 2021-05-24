@@ -82,3 +82,16 @@ content-type: application/json
     "username": "RuiHa",
     "password": "juhjhkjhk"
 }
+
+###
+POST http://localhost:3003/api/blogs
+content-type: application/json 
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJ1aUhhIiwiaWQiOiI2MGFhMGMxODBkMTQ2ZTEyYWYyODQyZTAiLCJpYXQiOjE2MjE4Mzc1Nzl9.mk5-EgVpKwnpQswwi6MCOv-BR6ZLvB9CfZsN2QwtE50
+
+{
+    "title": "It's time to duel",
+    "author": "Kawhi",
+    "url": "tt@ll.com",
+    "likes": "232",
+    "userId": "60a7d9ecaf3d390f592fd879"
+}
