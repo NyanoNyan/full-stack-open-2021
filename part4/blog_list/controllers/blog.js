@@ -52,9 +52,35 @@ blogRouter.post('/', async(request, response) => {
   response.json(savedBlog)
 })
 
+blogRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if (blog) {
+    response.json(blog.toJSON())
+  } else {
+    response.status(404).end()
+  }
+})
+
 blogRouter.delete('/:id', async(request, response) => {
-  await Blog.findByIdAndRemove(request.params.id);
-  response.status(204).end()
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const user = await User.findById(decodedToken.id);
+
+  // console.log('user', user);
+  // console.log('dcoded token', decodedToken)
+
+  if (user.blogs.find(id => id.toString() === request.params.id)){
+    await Blog.findByIdAndRemove(request.params.id);
+    // console.log('test', user.blogs.filter(blog => blog.toString() !== request.params.id))
+    // const updatedBlogIds = blog => blog.toString() !== request.params.id;
+    // await User.findByIdAndUpdate(user._id.toString(), { $set: {blogs: updatedBlogIds}}, { new:true})
+    response.status(204).end()
+  } else (
+    response.status(400).json({
+      error: 'User not authorized'
+    }
+    )
+  )
+
 })
   
 blogRouter.put('/:id', async(request, response) => {

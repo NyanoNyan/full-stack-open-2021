@@ -48,6 +48,17 @@ content-type: application/json
     "password": "juhjhkjhk"
 }
 
+### posting test, checking username
+POST http://localhost:3003/api/users
+content-type: application/json
+
+{
+    "blogs": [],
+    "username": "Kawhi",
+    "name": "Kawhi Leonard",
+    "password": "asdf"
+}
+
 
 ###
 POST http://localhost:3003/api/blogs
@@ -84,14 +95,29 @@ content-type: application/json
 }
 
 ###
+POST http://localhost:3003/api/login
+content-type: application/json 
+
+
+{
+    "username": "Kawhi",
+    "password": "asdf"
+}
+
+###
 POST http://localhost:3003/api/blogs
 content-type: application/json 
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJ1aUhhIiwiaWQiOiI2MGFhMGMxODBkMTQ2ZTEyYWYyODQyZTAiLCJpYXQiOjE2MjE4Mzc1Nzl9.mk5-EgVpKwnpQswwi6MCOv-BR6ZLvB9CfZsN2QwtE50
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJ1aUhhIiwiaWQiOiI2MGFiNWE4OGUxMTUxZjFkNTZiNDNlNDQiLCJpYXQiOjE2MjE4NDMxOTN9.8IfqT-Cc-f0y2pT1eveEg_MlE7vFzT_2m9cZ6tPJb60
 
 {
     "title": "It's time to duel",
-    "author": "Kawhi",
+    "author": "Rui",
     "url": "tt@ll.com",
-    "likes": "232",
-    "userId": "60a7d9ecaf3d390f592fd879"
+    "likes": "500",
+    "userId": "60aa0c180d146e12af2842e0"
 }
+
+###
+DELETE  http://localhost:3003/api/blogs/60abb194edf5c916b8c9931d
+content-type: application/json 
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikthd2hpIiwiaWQiOiI2MGFiYjUyM2I2MzUyMTFjMDVmMTRmODQiLCJpYXQiOjE2MjE4NjU3ODl9.GFAipfDKpSZMkFlT2N3sZUMhHKetKnW3uO41mG-nux0
