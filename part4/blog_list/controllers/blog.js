@@ -2,6 +2,7 @@ const blogRouter = require('express').Router();
 const Blog = require('../models/blog');
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
+const middleware = require('../utils/middleware');
 
 blogRouter.get('/', async(request, response) => {
   const blogs = await Blog
@@ -10,28 +11,10 @@ blogRouter.get('/', async(request, response) => {
   response.json(blogs)
 });
 
-// const getTokenFrom = request => {
-//   const authorization = request.get('authorization');
-//   if (authorization && authorization.toLowerCase().startsWith('bearer ')){
-//     return authorization.substring(7);
-//   }
-//   return null;
-// }
   
-blogRouter.post('/', async(request, response) => {
+blogRouter.post('/', middleware.userExtractor, async(request, response) => {
   const body = request.body;
-  // const token = getTokenFrom(request);
-  console.log(request.token)
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' });
-  };
-  const user = await User.findById(decodedToken.id);
-
-  // Random user
-  // const getUsers = await User.find({});
-  // const randItem  = getUsers[Math.floor(Math.random() * getUsers.length)];
-  // const user = randItem;
+  const user = request.user;
 
   if (!body.title && !body.url) {
     return response.status(400).end();
@@ -61,18 +44,12 @@ blogRouter.get('/:id', async (request, response) => {
   }
 })
 
-blogRouter.delete('/:id', async(request, response) => {
+blogRouter.delete('/:id', middleware.userExtractor, async(request, response) => {
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
   const user = await User.findById(decodedToken.id);
 
-  // console.log('user', user);
-  // console.log('dcoded token', decodedToken)
-
   if (user.blogs.find(id => id.toString() === request.params.id)){
     await Blog.findByIdAndRemove(request.params.id);
-    // console.log('test', user.blogs.filter(blog => blog.toString() !== request.params.id))
-    // const updatedBlogIds = blog => blog.toString() !== request.params.id;
-    // await User.findByIdAndUpdate(user._id.toString(), { $set: {blogs: updatedBlogIds}}, { new:true})
     response.status(204).end()
   } else (
     response.status(400).json({

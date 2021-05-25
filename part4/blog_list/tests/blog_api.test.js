@@ -50,10 +50,32 @@ describe('Testing apis', () => {
       likes: 55,
     }
 
+    const login = {
+      username: 'Draco2',
+      password: 'testing2', 
+    }
+
+    const authentication = await api
+      .post('/api/login')
+      .send(login)
+      .expect(200);
+
+    console.log(authentication.body.token)
+
+    // Check if authorization is a success
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${authentication.body.token}`)
       .send(newBlog)
       .expect(200)
+      .expect('Content-Type', /application\/json/)
+    
+    // Check if no token is provided
+    await api
+      .post('/api/blogs')
+      .set('Authorization', ``)
+      .send(newBlog)
+      .expect(401)
       .expect('Content-Type', /application\/json/)
 
     
@@ -157,7 +179,7 @@ describe('One user in database', () => {
     const usersAtStart = await helper.getUsersInDB();
 
     const newUser = {
-      username: 'Draco',
+      username: 'Draco2',
       name: 'Jacob Will',
       password: 'testing2', 
     }

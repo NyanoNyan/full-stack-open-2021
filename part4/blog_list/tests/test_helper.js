@@ -14,8 +14,19 @@ const initialBlogs = [
         url: "lol.com",
         likes: 50
     }
-
+    
 ];
+
+// const initialUsers= [
+//     {
+//         blogs: [],
+//         username: "Paul",
+//         name: "Paul Jacobs",
+//     },
+//     {
+        
+//     }
+// ]
 
 const getAllBlogsInDB = async () => {
     const blogs = await Blog.find({});
