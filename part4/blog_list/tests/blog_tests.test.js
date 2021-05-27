@@ -163,4 +163,20 @@ describe('get the favourite blog', () => {
               }
         );
     })
+
+    test('most blogs', () => {
+      expect(listHelper.mostBlogs(blogs)).toEqual({
+        author: "Edsger W. Dijkstra",
+        blogs:2
+      });
+    });
+
+    test('most likes', () => {
+      expect(listHelper.mostLikes(blogs)).toEqual({
+        author: "Edsger W. Dijkstra",
+        likes: 17
+      })
+    })
+
+
 });
