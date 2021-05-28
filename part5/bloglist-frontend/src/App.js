@@ -72,7 +72,7 @@ const App = () => {
       <h2>blogs</h2>
       <div>
         <p style={{display: 'inline-block'}}>{`${user.username} is logged in.`}</p>
-        <button onClick={ () => setUser(null)}>logout</button>
+        <button onClick={ () => {setUser(null), window.localStorage.removeItem('loggedBlogappUser')}}>logout</button>
       </div>
 
       {blogs.map(blog =>
