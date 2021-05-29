@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login';
+import CreateBlogs from './components/CreateBlogs';
+
 import blogService from './services/blogs'
 import loginService from './services/login';
 
@@ -11,6 +13,11 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -24,7 +31,8 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       );
-
+      
+      blogService.setToken(user.token);
       setUser(user);
       setUsername('');
       setPassword('');
@@ -37,12 +45,33 @@ const App = () => {
 
   }
 
+  const handleNewBlog = async (event) => {
+    event.preventDefault();
+    blogService.setToken(user.token);
+    const newObj = {
+      title: title,
+      author: author,
+      url: url 
+    };
+
+    try {
+      await blogService.create(newObj);
+      setTitle('');
+      setAuthor('');
+      setUrl('');
+    } catch (exception) {
+      console.log('Error')
+    }
+
+
+  }
+
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [])
+  }, [blogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
@@ -75,9 +104,25 @@ const App = () => {
         <button onClick={ () => {setUser(null), window.localStorage.removeItem('loggedBlogappUser')}}>logout</button>
       </div>
 
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      <div>
+        <CreateBlogs
+          handleNewBlog={handleNewBlog}
+          title={title}
+          author={author}
+          url={url}
+          setTitle={setTitle}
+          setAuthor={setAuthor}
+          setUrl={setUrl}
+        />
+      </div>
+
+      <div style={{marginTop: '10px'}}>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
+      </div>
+
+
     </div>
   )
 }
