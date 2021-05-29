@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login';
 import CreateBlogs from './components/CreateBlogs';
+import Notification from './components/Notification';
 
 import blogService from './services/blogs'
 import loginService from './services/login';
@@ -9,7 +10,8 @@ import loginService from './services/login';
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState('');
+  const [loginMessage, setLoginMessage] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -37,9 +39,9 @@ const App = () => {
       setUsername('');
       setPassword('');
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setLoginMessage('wrong username or password')
       setTimeout(() => {
-        setErrorMessage(null)
+        setLoginMessage(loginMessage)
       }, 5000)
     }
 
@@ -53,12 +55,17 @@ const App = () => {
       author: author,
       url: url 
     };
+    const messageSetup = [`a new blog ${title} by ${author} added`, false];
 
     try {
       await blogService.create(newObj);
+      setMessage(messageSetup);
       setTitle('');
       setAuthor('');
       setUrl('');
+      setTimeout(() => {
+        setMessage('')
+      }, 5000);
     } catch (exception) {
       console.log('Error')
     }
@@ -85,6 +92,10 @@ const App = () => {
     return (
       <div>
         <h2> Log in to application</h2>
+          <div style={{backgroundColor:'lightgray', textAlign:'center'}}>
+            {loginMessage}
+          </div>
+
          <Login 
             handleLogin={handleLogin}
             username={username}
@@ -99,6 +110,9 @@ const App = () => {
   return (
     <div>     
       <h2>blogs</h2>
+      <Notification 
+        message = {message}
+      />
       <div>
         <p style={{display: 'inline-block'}}>{`${user.username} is logged in.`}</p>
         <button onClick={ () => {setUser(null), window.localStorage.removeItem('loggedBlogappUser')}}>logout</button>
