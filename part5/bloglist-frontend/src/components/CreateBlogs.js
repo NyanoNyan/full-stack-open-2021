@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react'
+import login from '../services/login';
 
-const CreateBlogs = ( {handleNewBlog, title, author, url, setTitle, setAuthor, setUrl} ) => {
+const CreateBlogs = ( {createBlog} ) => {
+
+    const [title, setTitle] = useState('');
+    const [author, setAuthor] = useState('');
+    const [url, setUrl] = useState('');
+
+    const addBlog = (event) => {
+        event.preventDefault();
+
+        const newObj = {
+          title: title,
+          author: author,
+          url: url 
+        };
+        const msgSetup = [`a new blog ${title} by ${author} added`, false];
+
+        createBlog(newObj, msgSetup);
+        setTitle('');
+        setAuthor('');
+        setUrl('');
+    
+    };
+
     return (
         <div>
             <h2>create new</h2>
-            <form onSubmit={handleNewBlog}>
+
+            <form onSubmit={addBlog}>
                 <div>
                     <label>title:</label>
                     <input 
@@ -35,7 +59,6 @@ const CreateBlogs = ( {handleNewBlog, title, author, url, setTitle, setAuthor, s
 
                 <button type="submit">create</button>
             </form>
-
             
         </div>
     );

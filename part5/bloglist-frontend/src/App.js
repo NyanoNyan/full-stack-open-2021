@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import Login from './components/Login';
 import CreateBlogs from './components/CreateBlogs';
 import Notification from './components/Notification';
+import Togglable from './components/Togglable';
 
 import blogService from './services/blogs'
 import loginService from './services/login';
@@ -15,10 +16,6 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
 
 
   const handleLogin = async (event) => {
@@ -47,31 +44,18 @@ const App = () => {
 
   }
 
-  const handleNewBlog = async (event) => {
-    event.preventDefault();
+  const createBlog = async (newObj, msgSetup) => {
     blogService.setToken(user.token);
-    const newObj = {
-      title: title,
-      author: author,
-      url: url 
-    };
-    const messageSetup = [`a new blog ${title} by ${author} added`, false];
-
     try {
       await blogService.create(newObj);
-      setMessage(messageSetup);
-      setTitle('');
-      setAuthor('');
-      setUrl('');
+      setMessage(msgSetup);
       setTimeout(() => {
         setMessage('')
       }, 5000);
     } catch (exception) {
-      console.log('Error')
+      console.log('Error', exception)
     }
-
-
-  }
+  };
 
 
   useEffect(() => {
@@ -119,15 +103,11 @@ const App = () => {
       </div>
 
       <div>
-        <CreateBlogs
-          handleNewBlog={handleNewBlog}
-          title={title}
-          author={author}
-          url={url}
-          setTitle={setTitle}
-          setAuthor={setAuthor}
-          setUrl={setUrl}
-        />
+        <Togglable buttonLabel="new blog">
+          <CreateBlogs
+            createBlog={createBlog}
+          />
+        </Togglable>
       </div>
 
       <div style={{marginTop: '10px'}}>
