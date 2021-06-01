@@ -48,7 +48,6 @@ const App = () => {
 
   const createBlog = async (newObj, msgSetup) => {
     blogFormRef.current.toggleVisibility();
-    blogService.setToken(user.token);
     try {
       await blogService.create(newObj);
       setMessage(msgSetup);
@@ -65,13 +64,14 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [blogs])
+  }, [message])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+      blogService.setToken(user.token);
     }
   }, [])
 
