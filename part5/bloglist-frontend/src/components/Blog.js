@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-const Blog = ({blog}) => {
+const Blog = ({blog, updateLikes, key}) => {
   const [showVisible, setShowVisible] = useState(false);
 
   const hideWhenVisible = showVisible? 'none': '';
@@ -42,7 +42,8 @@ const Blog = ({blog}) => {
           <p>
             {`Title: ${blog.title}`} <br></br>
             {`Author: ${blog.author}`} <br></br>
-            {`Likes: ${blog.likes}`} <button>like</button><br></br>
+            {`Likes: ${blog.likes}`} 
+            <button onClick={() => updateLikes(blog)}>like</button><br></br>
             {`url: ${blog.url}`} <br></br>
           </p>
           <button onClick={changeVisibility}>hide</button>

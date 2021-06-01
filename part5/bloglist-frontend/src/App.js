@@ -16,6 +16,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [updated, setUpdated] = useState(false);
 
   const blogFormRef = useRef();
 
@@ -59,12 +60,32 @@ const App = () => {
     }
   };
 
+  const updateLikes = async(blog) => {
+    // console.log('hello', blog);
+    const updatedBlog = {
+      title: blog.title,
+      author: blog.author,
+      likes: blog.likes + 1,
+      url: blog.url
+    }
+    try{
+      await blogService.update(blog.id, updatedBlog)
+      setUpdated(true);
+      setTimeout(() => {
+        setUpdated(false);
+      }, 5000)
+
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [message])
+  }, [message, updated])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
@@ -115,7 +136,7 @@ const App = () => {
 
       <div style={{marginTop: '10px'}}>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} updateLikes={updateLikes}/>
         )}
       </div>
 
