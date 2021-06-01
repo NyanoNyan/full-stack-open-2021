@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-const Blog = ({blog, updateLikes, key}) => {
+const Blog = ({blog, updateLikes}) => {
   const [showVisible, setShowVisible] = useState(false);
 
   const hideWhenVisible = showVisible? 'none': '';

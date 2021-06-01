@@ -80,11 +80,18 @@ const App = () => {
     }
   }
 
+  const sortBlogs = (blogs) => {
+    return blogs.sort((a, b) => b.likes - a.likes)
+  }
+
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    blogService.getAll().then(blogs => {
+      const sortedBlogs = sortBlogs(blogs);
+      setBlogs(sortedBlogs);
+    })  
+
+
   }, [message, updated])
 
   useEffect(() => {
