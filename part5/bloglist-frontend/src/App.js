@@ -80,6 +80,19 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async(blog) => {
+    try {
+      window.confirm(`Remove blog ${blog.name} by ${blog.author}?`)
+      await blogService.deleteBlog(blog.id)
+      setUpdated(true);
+      setTimeout(() => {
+        setUpdated(false);
+      }, 5000)
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
   const sortBlogs = (blogs) => {
     return blogs.sort((a, b) => b.likes - a.likes)
   }
@@ -143,7 +156,7 @@ const App = () => {
 
       <div style={{marginTop: '10px'}}>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} updateLikes={updateLikes}/>
+          <Blog key={blog.id} blog={blog} updateLikes={updateLikes} deleteBlog={deleteBlog}/>
         )}
       </div>
 

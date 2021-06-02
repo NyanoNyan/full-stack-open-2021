@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-const Blog = ({blog, updateLikes}) => {
+const Blog = ({blog, updateLikes, deleteBlog}) => {
   const [showVisible, setShowVisible] = useState(false);
 
   const hideWhenVisible = showVisible? 'none': '';
   const showWhenVisible = showVisible? '': 'none';
-  console.log(hideWhenVisible)
+
   let blogStyle;
   if (!showVisible) {
     blogStyle = {
@@ -22,7 +22,9 @@ const Blog = ({blog, updateLikes}) => {
     }
   }
 
-  console.log(blogStyle)
+  const hideBtnStyle = {
+    marginBottom: 18,
+  }
 
   const changeVisibility = () => {
     setShowVisible(!showVisible);
@@ -40,13 +42,20 @@ const Blog = ({blog, updateLikes}) => {
       <div style={{display: showWhenVisible}}>
         <div style={blogStyle} >
           <p>
-            {`Title: ${blog.title}`} <br></br>
+          <button style={hideBtnStyle} onClick={changeVisibility}>hide</button><br></br>
+            {`Title: ${blog.title}`} 
             {`Author: ${blog.author}`} <br></br>
             {`Likes: ${blog.likes}`} 
             <button onClick={() => updateLikes(blog)}>like</button><br></br>
             {`url: ${blog.url}`} <br></br>
+
+            <button 
+              style={{marginTop: 10}}
+              onClick={() => deleteBlog(blog)}
+              >remove
+            </button> <br></br>
+            
           </p>
-          <button onClick={changeVisibility}>hide</button>
         </div>
 
 
