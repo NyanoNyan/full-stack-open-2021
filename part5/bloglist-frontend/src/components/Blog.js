@@ -41,9 +41,9 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
       </div>
       <div style={{ display: showWhenVisible }}>
         <div style={blogStyle} >
-          <p>
+          <p className='blog-data'>
             <button style={hideBtnStyle} onClick={changeVisibility}>hide</button><br></br>
-            {`Title: ${blog.title}`}
+            {`Title: ${blog.title}`} <br></br>
             {`Author: ${blog.author}`} <br></br>
             {`Likes: ${blog.likes}`}
             <button onClick={() => updateLikes(blog)}>like</button><br></br>
