@@ -3,6 +3,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { fireEvent, render } from '@testing-library/react'
 import Blog from './Blog'
+import CreateBlogs from './CreateBlogs';
 
 describe('Blog list tests', () => {
   let component;
@@ -44,6 +45,38 @@ describe('Blog list tests', () => {
     fireEvent.click(button);
     fireEvent.click(button);
     expect(mockHandlerLikes.mock.calls).toHaveLength(2);
-    
+
+  })
+
+  test('check the creation of new blog form, if form calls event handlers which it received as props with the correct details.', () => {
+    const createBlog = jest.fn();
+
+    const component = render(
+      <CreateBlogs createBlog={createBlog} />
+    )
+
+    const inputTitle = component.container.querySelector('#title-inp');
+    const inputAuthor = component.container.querySelector('#author-inp');
+    const inputUrl = component.container.querySelector('#url-inp');
+    const form = component.container.querySelector('#form-blog');
+
+    fireEvent.change(inputTitle, {
+      target: {value: 'Testing Title'}
+    })
+
+    fireEvent.change(inputAuthor, {
+      target: {value: 'Testing Author'}
+    })
+
+    fireEvent.change(inputUrl, {
+      target: {value: 'Testing url'}
+    })
+
+    fireEvent.submit(form);
+
+    expect(createBlog.mock.calls).toHaveLength(1);
+    expect(createBlog.mock.calls[0][0].title).toBe('Testing Title');
+    expect(createBlog.mock.calls[0][0].author).toBe('Testing Author');
+    expect(createBlog.mock.calls[0][0].url).toBe('Testing url');
   })
 })
