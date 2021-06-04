@@ -35,14 +35,14 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
       <div style={{ display: hideWhenVisible }}>
         <div  style={blogStyle}>
           {blog.title} {blog.author}
-          <button onClick={changeVisibility}>show</button>
+          <button className='show-btn' onClick={changeVisibility}>show</button>
         </div>
 
       </div>
       <div style={{ display: showWhenVisible }}>
         <div style={blogStyle} >
           <p className='blog-data'>
-            <button style={hideBtnStyle} onClick={changeVisibility}>hide</button><br></br>
+            <button className='hide-btn' style={hideBtnStyle} onClick={changeVisibility}>hide</button><br></br>
             {`Title: ${blog.title}`} <br></br>
             {`Author: ${blog.author}`} <br></br>
             {`Likes: ${blog.likes}`}
