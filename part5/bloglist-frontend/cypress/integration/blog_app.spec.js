@@ -11,12 +11,18 @@ describe('Blog app', function() {
 
   describe('Login check', function() {
     beforeEach(function() {
-      const user = {
+      const user1 = {
         name: 'Rui Ha',
         username: 'RuiHa',
         password: 'juhjhkjhk'
       }
-      cy.request('POST', 'http://localhost:3003/api/users/', user)
+      const user2 = {
+        name: 'Kawhi',
+        username: 'Kawhi',
+        password: 'asdf'
+      }
+      cy.request('POST', 'http://localhost:3003/api/users/', user1)
+      cy.request('POST', 'http://localhost:3003/api/users/', user2)
     })
 
     it('successful login with credentials', function() {
@@ -71,6 +77,40 @@ describe('Blog app', function() {
         cy.contains('like').click()
         cy.contains('Likes: 1')
       })
+    })
+
+    describe('Blog deletion', function() {
+      beforeEach(function() {
+        cy.contains('login').click()
+        cy.get('#username').type('RuiHa')
+        cy.get('#password').type('juhjhkjhk')
+        cy.get('#login-btn').click()
+
+        cy.contains('create').click()
+        cy.get('#title-inp').type('testerino')
+        cy.get('#author-inp').type('testerino2')
+        cy.get('#url-inp').type('testerino3')
+        cy.get('#create-submit').click()
+      })
+
+      it('User who created the blog can delete the blog', function() {
+        cy.contains('show').click()
+        cy.contains('remove').click()
+        cy.get('#blog-msg').should('contain', 'testerino has been deleted')
+      })
+
+      it('User cannot delete other blogs', function() {
+        cy.contains('logout').click()
+        cy.contains('login').click()
+        cy.get('#username').type('Kawhi')
+        cy.get('#password').type('asdf')
+        cy.get('#login-btn').click()
+
+        cy.contains('show').click()
+        cy.contains('remove').click()
+        cy.get('#blog-msg').should('contain', 'testerino cannot be deleted')
+      })
+
     })
 
   })

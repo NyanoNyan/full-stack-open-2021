@@ -42,7 +42,7 @@ const App = () => {
       setLoginMessage('wrong username or password')
       setTimeout(() => {
         setLoginMessage(loginMessage)
-      }, 50000)
+      }, 5000)
     }
 
   }
@@ -85,11 +85,17 @@ const App = () => {
       window.confirm(`Remove blog ${blog.name} by ${blog.author}?`)
       await blogService.deleteBlog(blog.id)
       setUpdated(true)
+      setMessage([`${blog.title} has been deleted`, true])
       setTimeout(() => {
         setUpdated(false)
+        setMessage('')
       }, 5000)
     } catch (error) {
       console.log('Error', error)
+      setMessage([`${blog.title} cannot be deleted`, true])
+      setTimeout(() => {
+        setMessage('')
+      }, 5000)
     }
   }
 

@@ -5,7 +5,7 @@ const Notification = ( { message } ) => {
   if (message !== '') {
     let colorSelect = message[1] ? 'red': 'green'
     return (
-      <div style={{
+      <div id='blog-msg' style={{
         backgroundColor: 'lightgray',
         color: colorSelect,
         textAlign:'center',
