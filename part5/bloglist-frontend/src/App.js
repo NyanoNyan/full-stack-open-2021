@@ -42,7 +42,7 @@ const App = () => {
       setLoginMessage('wrong username or password')
       setTimeout(() => {
         setLoginMessage(loginMessage)
-      }, 5000)
+      }, 50000)
     }
 
   }
@@ -120,7 +120,7 @@ const App = () => {
     return (
       <div>
         <h2> Log in to application</h2>
-        <div style={{ backgroundColor:'lightgray', textAlign:'center' }}>
+        <div id="login-msg" style={{ backgroundColor:'lightgray', textAlign:'center' }}>
           {loginMessage}
         </div>
 
