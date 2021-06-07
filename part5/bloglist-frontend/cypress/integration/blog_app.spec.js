@@ -43,7 +43,14 @@ describe('Blog app', function() {
         cy.get('#username').type('RuiHa')
         cy.get('#password').type('juhjhkjhk')
         cy.get('#login-btn').click()
+
+        cy.contains('create').click()
+        cy.get('#title-inp').type('testerino')
+        cy.get('#author-inp').type('testerino2')
+        cy.get('#url-inp').type('testerino3')
+        cy.get('#create-submit').click()
       })
+
       it('A new blog can be created', function() {
         cy.contains('create').click()
         cy.get('#title-inp').type('testerino')
@@ -57,6 +64,12 @@ describe('Blog app', function() {
         cy.get('#author-inp').type('testerino2')
         cy.get('#url-inp').type('testerino3')
         cy.get('#create-submit').click()
+      })
+
+      it('User can like a blog', function() {
+        cy.contains('show').click()
+        cy.contains('like').click()
+        cy.contains('Likes: 1')
       })
     })
 
