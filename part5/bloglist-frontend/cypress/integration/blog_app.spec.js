@@ -113,5 +113,67 @@ describe('Blog app', function() {
 
     })
 
+    describe('Blog order', function() {
+      beforeEach(function() {
+        cy.contains('login').click()
+        cy.get('#username').type('RuiHa')
+        cy.get('#password').type('juhjhkjhk')
+        cy.get('#login-btn').click()
+
+        cy.contains('create').click()
+        cy.get('#title-inp').type('testerino')
+        cy.get('#author-inp').type('testerino1000')
+        cy.get('#url-inp').type('testerino20')
+        cy.get('#create-submit').click()
+
+        cy.contains('create').click()
+        cy.get('#title-inp').type('testerino2')
+        cy.get('#author-inp').type('testerino2000')
+        cy.get('#url-inp').type('testerino30')
+        cy.get('#create-submit').click()
+
+        cy.contains('create').click()
+        cy.get('#title-inp').type('testerino3')
+        cy.get('#author-inp').type('testerino3000')
+        cy.get('#url-inp').type('testerino50')
+        cy.get('#create-submit').click()
+
+        cy.wait(500)
+
+        for (let i=0; i<5; i++) {
+          cy.get('.blog-data > .likes-btn')
+            .then((v) => {
+              v[1].click()
+            })
+          cy.wait(2000)
+        }
+      })
+
+      it.only('test', function() {
+        // element changes due to it ordering based on most likes, so it changes midway
+        cy.get('.blog-data').each((el, index, list) => {
+          if (index === 0) {
+            cy.wrap(el[0])
+              .should('contain', 'testerino2')
+              .and('contain', '3')
+          } else if (index === 1) {
+            cy.wrap(el[0])
+              .should('contain', 'testerino')
+              .and('contain', '2')
+          } else if (index === 2) {
+            cy.wrap(el[0])
+              .should('contain', 'testerino3')
+              .and('contain', '0')
+          }
+        })
+
+        cy.get('.show-btn')
+          .then((v) => {
+            v.click()
+          })
+
+      })
+    })
+
   })
 })

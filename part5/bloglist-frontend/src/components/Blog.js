@@ -46,7 +46,7 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
             {`Title: ${blog.title}`} <br></br>
             {`Author: ${blog.author}`} <br></br>
             {`Likes: ${blog.likes}`}
-            <button onClick={() => updateLikes(blog)}>like</button><br></br>
+            <button className='likes-btn' onClick={() => updateLikes(blog)}>like</button><br></br>
             {`url: ${blog.url}`} <br></br>
 
             <button
